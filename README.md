@@ -25,6 +25,7 @@ To successfully run this chat system there are two essential elements:
 
 ### Edit Files to Your System:
 	You will need to edit the files to run successfully on your server. The only necessary edits are to adjust the IP address and port number you would like to serve your chat server on. Please make the following edits:
+
 		1. In server.js
 			line 26:
 				app.listen(3000); // change 3000 to port you want to serve at
@@ -33,6 +34,7 @@ To successfully run this chat system there are two essential elements:
 				var socket = io.connect('http://erics.homeip.net:3000'); // change http://erics.homeip.net to IP of your choice, e.g. http://yoursite.net and change 3000 to the port you chose in server.js
 
 #### Directions:
+
 	1. Successfully install Node.js and Redis
 	2. Copy included files to location of choice
 	3. Open a terminal
