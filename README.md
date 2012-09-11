@@ -15,7 +15,7 @@ To successfully run this chat system there are two essential elements:
 The latest version of Node.js can be found on [github](https://github.com/joyent/node). While Node.js can be run in a Windows environment, it is preferred to run in a Unix environment.
 
 ### Redis:
-Install Redis on [github](https://github.com/antirez/redis).
+Install Redis from [github](https://github.com/antirez/redis).
 
 ### Other Dependencies:
 Using the NPM, it is a simple matter to install all other dependencies.
