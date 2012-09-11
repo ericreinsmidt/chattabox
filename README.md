@@ -21,17 +21,17 @@ While Node.js can be run in a Windows environment, it is preferred to run in a U
 Redis can be installed a number of ways, but the most efficient way to ensure you are getting the most recent version is again to use git 'git clone git://github.com/antirez/redis.git'
 
 ### Other Dependencies:
-	Using the NPM, it is a simple matter to install all other dependencies.
+Using the NPM, it is a simple matter to install all other dependencies.
 
 ### Edit Files to Your System:
 You will need to edit the files to run successfully on your server. The only necessary edits are to adjust the IP address and port number you would like to serve your chat server on. Please make the following edits:
 
-		1. In server.js
-			line 26:
-				app.listen(3000); // change 3000 to port you want to serve at
-		2. In assets/js/chattabox.js
-			line 2:
-				var socket = io.connect('http://erics.homeip.net:3000'); // change http://erics.homeip.net to IP of your choice, e.g. http://yoursite.net and change 3000 to the port you chose in server.js
+1. In server.js
+	line 26:
+		app.listen(3000); // change 3000 to port you want to serve at
+2. In assets/js/chattabox.js
+	line 2:
+		var socket = io.connect('http://erics.homeip.net:3000'); // change http://erics.homeip.net to IP of your choice, e.g. http://yoursite.net and change 3000 to the port you chose in server.js
 
 #### Directions:
 
