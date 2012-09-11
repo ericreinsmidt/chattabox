@@ -1,9 +1,6 @@
 # Chatta Box
 
-> Author @ Eric Reinsmidt, eric@reinsmidt.com
-
 > THIS SOFTWARE IS SUPPLIED WITHOUT WARRANTY OR LIABILITY OF ANY KIND!!!
-
 > It is released under some undecided FOSS license
 
 ### INSTALLATION
