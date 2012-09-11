@@ -9,6 +9,7 @@
 ### INSTALLATION
 
 To successfully run this chat system there are two essential elements:
+
 1. Node.js Server installed with the Node Package Manager (NPM)
 2. Redis NoSQL Database
 
