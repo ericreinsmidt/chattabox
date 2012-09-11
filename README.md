@@ -12,7 +12,7 @@ To successfully run this chat system there are two essential elements:
 2. Redis NoSQL Database
 
 ### Node.js:
-The latest version of Node.js can be found on [github](https://github.com/joyent/node). While Node.js can be run in a Windows environment, it is preferred to run in a Unix environment.
+The latest version of Node.js can be found on [github](https://github.com/joyent/node).
 
 ### Redis:
 Install Redis from [github](https://github.com/antirez/redis).
