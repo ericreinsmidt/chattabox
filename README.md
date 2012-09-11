@@ -14,8 +14,8 @@ To successfully run this chat system there are two essential elements:
 2. Redis NoSQL Database
 
 ### Node.js:
-	The latest version of Node.js can be found at http://nodejs.org/download/ or can be downloaded using the Git protocol with the command 'git clone git://github.com/joyent/node.git'
-	While Node.js can be run in a Windows environment, it is preferred to run in a Unix environment. The reason is that the NoSQL database used in this application, Redis, is not fully developed in the Windows environment. In addition, most of the tools here are in their infancy, so a current version of all components is fully advised.
+The latest version of Node.js can be found at http://nodejs.org/download/ or can be downloaded using the Git protocol with the command 'git clone git://github.com/joyent/node.git'
+While Node.js can be run in a Windows environment, it is preferred to run in a Unix environment. The reason is that the NoSQL database used in this application, Redis, is not fully developed in the Windows environment. In addition, most of the tools here are in their infancy, so a current version of all components is fully advised.
 
 ### Redis:
 	Redis can be installed a number of ways, but the most efficient way to ensure you are getting the most recent version is again to use git 'git clone git://github.com/antirez/redis.git'
