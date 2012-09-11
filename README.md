@@ -1,6 +1,7 @@
 # Chatta Box
 
 > THIS SOFTWARE IS SUPPLIED WITHOUT WARRANTY OR LIABILITY OF ANY KIND!!!
+
 > It is released under some undecided FOSS license
 
 ### INSTALLATION
