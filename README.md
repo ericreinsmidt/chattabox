@@ -9,8 +9,8 @@
 ### INSTALLATION
 
 To successfully run this chat system there are two essential elements:
-	1. Node.js Server installed with the Node Package Manager (NPM)
-	2. Redis NoSQL Database
+1. Node.js Server installed with the Node Package Manager (NPM)
+2. Redis NoSQL Database
 
 ### Node.js:
 	The latest version of Node.js can be found at http://nodejs.org/download/ or can be downloaded using the Git protocol with the command 'git clone git://github.com/joyent/node.git'
