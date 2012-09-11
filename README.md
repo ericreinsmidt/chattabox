@@ -18,13 +18,13 @@ The latest version of Node.js can be found at http://nodejs.org/download/ or can
 While Node.js can be run in a Windows environment, it is preferred to run in a Unix environment. The reason is that the NoSQL database used in this application, Redis, is not fully developed in the Windows environment. In addition, most of the tools here are in their infancy, so a current version of all components is fully advised.
 
 ### Redis:
-	Redis can be installed a number of ways, but the most efficient way to ensure you are getting the most recent version is again to use git 'git clone git://github.com/antirez/redis.git'
+Redis can be installed a number of ways, but the most efficient way to ensure you are getting the most recent version is again to use git 'git clone git://github.com/antirez/redis.git'
 
 ### Other Dependencies:
 	Using the NPM, it is a simple matter to install all other dependencies.
 
 ### Edit Files to Your System:
-	You will need to edit the files to run successfully on your server. The only necessary edits are to adjust the IP address and port number you would like to serve your chat server on. Please make the following edits:
+You will need to edit the files to run successfully on your server. The only necessary edits are to adjust the IP address and port number you would like to serve your chat server on. Please make the following edits:
 
 		1. In server.js
 			line 26:
@@ -35,12 +35,12 @@ While Node.js can be run in a Windows environment, it is preferred to run in a U
 
 #### Directions:
 
-	1. Successfully install Node.js and Redis
-	2. Copy included files to location of choice
-	3. Open a terminal
-	4. 'cd path/to/included \files'
-	5. 'npm install -d' (this will install all needed dependencies automagically)
-	6. 'redis-server' (this will start the NoSQL server)
-	7. 'node server.js' (this will start the HTTP server that serves files and connects sockets for chat)
-	8. Open a browser and point it to <your IP>:<your port>
-	9. Chat away!
+1. Successfully install Node.js and Redis
+2. Copy included files to location of choice
+3. Open a terminal
+4. 'cd path/to/included \files'
+5. 'npm install -d' (this will install all needed dependencies automagically)
+6. 'redis-server' (this will start the NoSQL server)
+7. 'node server.js' (this will start the HTTP server that serves files and connects sockets for chat)
+8. Open a browser and point it to <your IP>:<your port>
+9. Chat away!
