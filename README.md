@@ -39,5 +39,5 @@ You will need to edit the files to run successfully on your server. The only nec
 5. 'npm install -d' (this will install all needed dependencies automagically)
 6. 'redis-server' (this will start the NoSQL server)
 7. 'node server.js' (this will start the HTTP server that serves files and connects sockets for chat)
-8. Open a browser and point it to <your IP>:<your port>
+8. Open a browser and point it to &lt;your IP>:<your port>
 9. Chat away!
