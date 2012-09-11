@@ -1,0 +1,19 @@
+{
+  "name": "Chatta-Box",
+  "author": {
+    "name": "Eric Reinsmidt",
+    "email": "eric@reinsmidt.com",
+    "url": "http://github.com/ericreinsmidt"
+  },
+  "version": "0.0.1",
+  "dependencies": {
+    "socket.io": "0.9.x",
+    "mime": "1.2.x",
+    "redis": "x",
+    "hiredis" :"x"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
