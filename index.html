@@ -46,7 +46,7 @@
 
 
       <section id="main_content">
-        <h1>Chatta Box</h1>
+        <h1>Chattabox</h1>
 
 <blockquote>
 <p>THIS SOFTWARE IS SUPPLIED WITHOUT WARRANTY OR LIABILITY OF ANY KIND!!!</p>
@@ -79,12 +79,14 @@
 
 <ol>
 <li>In server.js, change app.listen(3000); // change 3000 to port you want to serve at</li>
-<li>In assets/js/chattabox.js, change var socket = io.connect(' <a href="http://example.com:3000">http://example.com:3000</a> '); // use your domain name</li>
+<li>In assets/js/chattabox.js, change var socket = io.connect(' <a href="http://example.com:3000">http://example.com:3000</a> '); // use your domain name and the port from previous step</li>
 </ol><h4>Directions:</h4>
 
 <p>Successfully install Node.js and Redis</p>
 
-<pre><code>$ cd chattabox
+<pre><code>$ cd your_root
+$ git clone git@github.com:ericreinsmidt/chattabox.git
+$ cd chattabox
 $ npm install -d
 $ redis-server
 $ node server.js
