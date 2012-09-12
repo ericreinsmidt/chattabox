@@ -60,11 +60,17 @@
 <p>You will need to edit the files to run successfully on your server. The only necessary edits are to adjust the IP address and port number you would like to serve your chat server on. Please make the following edits:</p>
 
 <ol>
-<li>In server.js, change app.listen(3000); // change 3000 to port you want to serve at</li>
-<li>In assets/js/chattabox.js, change var socket = io.connect(' <a href="http://example.com:3000">http://example.com:3000</a> '); // use your domain name and the port from previous step</li>
-</ol><h4>Directions:</h4>
-
-<p>Successfully install Node.js and Redis</p>
+<li>In server.js
+<code>
+app.listen(3000); // change 3000 to port you want to serve at
+</code>
+</li>
+<li>In assets/js/chattabox.js
+<code>
+var socket = io.connect(' http://example.com:3000 '); // use your domain name and the port from previous step
+</code>
+#### Directions:</li>
+</ol><p>Successfully install Node.js and Redis</p>
 
 <pre><code>$ cd your_root
 $ git clone git@github.com:ericreinsmidt/chattabox.git
