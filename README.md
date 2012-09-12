@@ -1,8 +1,4 @@
-# Chatta Box
-
-> THIS SOFTWARE IS SUPPLIED WITHOUT WARRANTY OR LIABILITY OF ANY KIND!!!
-
-> It is released under some undecided FOSS license
+# Chattabox
 
 ### INSTALLATION
 
@@ -12,32 +8,44 @@ To successfully run this chat system there are two essential elements:
 2. Redis NoSQL Database
 
 ### Node.js:
-The latest version of Node.js can be found on [github](https://github.com/joyent/node).
+Get Node.js @ [nodejs.org](http://nodejs.org/).
 
 ### Redis:
-Install Redis from [github](https://github.com/antirez/redis).
+Get Redis @ [redis.io](http://redis.io/).
 
 ### Other Dependencies:
-Using the NPM, it is a simple matter to install all other dependencies.
+Using NPM, it is simple to install all other dependencies.
 
-### Edit Files to Your System:
+### Edit Files:
 You will need to edit the files to run successfully on your server. The only necessary edits are to adjust the IP address and port number you would like to serve your chat server on. Please make the following edits:
 
 1. In server.js
-	line 26:
-		app.listen(3000); // change 3000 to port you want to serve at
+```
+app.listen(3000); // change 3000 to port you want to serve at
+```
+
 2. In assets/js/chattabox.js
-	line 2:
-		var socket = io.connect('http://erics.homeip.net:3000'); // change http://erics.homeip.net to IP of your choice, e.g. http://example.com and change 3000 to the port you chose in server.js
+```
+var socket = io.connect(' http://example.com:3000 '); // use your domain name and the port from previous step
+```
 
 #### Directions:
 
-1. Successfully install Node.js and Redis
-2. Copy included files to location of choice
-3. Open a terminal
-4. 'cd path/to/included \files'
-5. 'npm install -d' (this will install all needed dependencies automagically)
-6. 'redis-server' (this will start the NoSQL server)
-7. 'node server.js' (this will start the HTTP server that serves files and connects sockets for chat)
-8. Open a browser and point it to &lt;your IP&gt;:&lt;your port&gt;
-9. Chat away!
+Successfully install Node.js and Redis
+```
+$ cd your_root
+$ git clone git@github.com:ericreinsmidt/chattabox.git
+$ cd chattabox
+$ npm install -d
+$ redis-server
+$ node server.js
+```
+Open a browser and point it to http://example.com:3000
+
+> Copyright (c) 2012 Eric Reinsmidt
+
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
