@@ -23,9 +23,15 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" href="#">Chatta Box</a>
-					<span id="buttons" class="pull-right">
+					<span id="enter_buttons" class="pull-right">
 						<input id="login" type="button" class="btn btn-small btn-success" value="Login" onclick="loadInput('login');">
 						<input id="signup" type="button" class="btn btn-small btn-primary" value="Signup" onclick="loadInput('signup');">
+					</span>
+					<span id="exit_buttons" class="pull-right">
+						<input id="logout" type="button" class="btn btn-small btn-danger" value="Logout" onclick="window.location.reload();">
+					</span>
+					<span class="pull-right">
+						<div id="myID"></div>
 					</span>
 				</div>
 			</div>
@@ -37,15 +43,11 @@
 					<div class="well sidebar-nav">
 						<ul class="nav nav-list">
 							<li class="nav-header">Current Users</li>
-							<ul style="list-style: none;" class="room_1">
+							<ul style="list-style: none;" class="gen-pop">
 							</ul>
-							<!-- TO BE IMPLEMENTED LATER -->
-							<!--<li class="nav-header">Room 2</li>
-							<ul class="room_2">
-							</ul>
-							<li class="nav-header">Room 3</li>
-							<ul class="room_3">
-							</ul>-->
+							<hr>
+							<li class="nav-header">Buddies</li>
+							<ul style="list-style: none;" class="buddies"></ul>
 						</ul>
 					</div><!--/.well -->
 				</div><!--/span-->

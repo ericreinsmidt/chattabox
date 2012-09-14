@@ -1,5 +1,5 @@
 // socket to connect to server
-var socket = io.connect('http://erics.homeip.net:3000');
+var socket = io.connect('http://localhost:3000');
 
 // special case to deal with twitter bootstrap's removing of alert element from DOM
 $('.alert .close').live("click", function(e) {
@@ -8,10 +8,10 @@ $('.alert .close').live("click", function(e) {
 
 // user join/leave event received
 socket.on('update_user_list', function(data) {
-	$('.room_1').html('');
+	$('.gen-pop').html('');
 	$.each(data, function(index, value)
 	{ 
-		$('.room_1').append('<li>'+value+'</li>');
+		$('.gen-pop').append('<li>'+value+'</li>');
 		//console.log(value);
 	});
 });
@@ -37,11 +37,31 @@ socket.on('add_message', function(data) {
 });
 
 // event received that you have entered either login or signup
-socket.on('allow_chat', function() {
+socket.on('allow_chat', function(user) {
+	$('#myID').html('<h5>logged in as '+user+'</h5>');
+	//socket.emit('getBuddies');
+	$('#enter_buttons').hide();
+	$('#exit_buttons').show();
 	$('#chat-login').hide();
 	$('#chat-signup').hide();
 	$('#chat-input').show();
 	$('#chat_message').focus();
+});
+
+socket.on('showBuddies', function(user, buddy) {
+	if (user === $('#myID').text()) {
+		$('.buddies').append('<li>' + buddy + '</li>');
+	};
+});
+
+socket.on('buddyJoined', function(buddy) {
+	$('.buddies').append('<li>' + buddy + '</li>');
+	console.log('Your buddy '+buddy+ ' is here.');
+});
+
+socket.on('buddyIsHere', function(buddy) {
+	$('.buddies').append('<li>' + buddy + '</li>');
+	console.log('Your buddy '+buddy+ ' is already here.');
 });
 
 // add ability to use enter key to enter data from text field
@@ -58,22 +78,18 @@ $('#new_user, #new_password').keyup(function(event) {
 	};
 });
 
-// load login/signup based on user choice
-function loadInput(e) {
-	if (e === 'signup') {
-		$('#chat-login').hide();
-		$('#chat-signup').show();
-		$('#new_user').focus();
-	} else {
-		$('#chat-signup').hide();
-		$('#chat-login').show();
-		$('#user_name').focus();
-	};
+function logout() {
+	console.log('disconnected from socket!!!!!!');
+	socket.emit('disconnect', function() {
+		//
+	});
+	$('#chat-input').hide();
+	$('#enter_buttons').show();
+	$('#exit_buttons').hide();
 };
 
 // emit to server a signup event
 function signup() {
-	$('#buttons').hide();
 	socket.emit('signup', $('#new_user').val(), $('#new_password').val() );
 	$('#new_user').val('');
 	$('#new_password').val('');
@@ -83,7 +99,6 @@ function signup() {
 
 // emit to server a login event
 function login() {
-	$('#buttons').hide();
 	socket.emit('login', $('#user_name').val(), $('#password').val() );
 	$('#user_name').val('');
 	$('#password').val('');
@@ -105,6 +120,40 @@ function sendMessage() {
 	$('#chat_message').focus();
 };
 
+// add user to .buddies on click
+$(document).on('click', '.gen-pop li', function() {
+
+	socket.emit('addToBuddies', $(this).text());
+
+	//if ( $('.buddies li:contains("'+$(this).text()+'")').length ) {
+//
+	//    console.log($(this).text()+' already in buddy list');
+//
+	//} else {
+	//	console.log($(this).text()+' added to buddy list');
+	//	$('.buddies').append('<li>' + $(this).text() + '</li>');
+	//};
+});
+
+//////
+// MIGHT NEED TO MIVE ABOVE BODY IN HTML
+//////
+// load login/signup based on user choice
+function loadInput(e) {
+	if (e === 'signup') {
+		$('#chat-login').hide();
+		$('#chat-signup').show();
+		$('#new_user').focus();
+	} else {
+		$('#chat-signup').hide();
+		$('#chat-login').show();
+		$('#user_name').focus();
+	};
+};
+
+//////
+// MIGHT NEED TO MIVE ABOVE BODY IN HTML
+//////
 // have chat box resize when window is resized to look asthetically pleasing
 function sizeChat() {
 	$('.hero-unit').css('height', ($(window).height() * 0.5));

@@ -22,9 +22,18 @@ body {
 	margin-top: 15px;
 	display: none;
 }
-.room_1 {
+.gen-pop, .buddies {
 	font-size: 18px;
 	font-weight: 200;
+}
+.gen-pop li {
+	cursor: pointer;
+}
+#exit_buttons {
+	display: none;
+}
+#myID {
+	margin-right: 5px;
 }
 footer {
 
