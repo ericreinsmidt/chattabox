@@ -97,15 +97,17 @@ io.sockets.on('connection', function (socket) {
 
 function handle_add_buddies(socket) {
 	socket.on('addToBuddies', function(buddy) {
-		console.log('Attempting to add '+buddy+' to '+socket.user+'\'s Buddy list...');
-		client.sismember(socket.user+'_buddies', buddy, function(err, res) {
-			if (res) {
-				// buddy already added
-			} else {
-				client.sadd(socket.user+'_buddies', buddy);
-				console.log('Successfully added '+buddy+' to '+socket.user+'\'s Buddy list!!');
-			};
-		});
+		if (socket.user !== buddy) {
+			console.log('Attempting to add '+buddy+' to '+socket.user+'\'s Buddy list...');
+			client.sismember(socket.user+'_buddies', buddy, function(err, res) {
+				if (res) {
+					// buddy already added
+				} else {
+					client.sadd(socket.user+'_buddies', buddy);
+					console.log('Successfully added '+buddy+' to '+socket.user+'\'s Buddy list!!');
+				};
+			});
+		};
 	});
 };
 

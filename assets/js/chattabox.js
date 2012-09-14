@@ -161,3 +161,11 @@ function loadInput(e) {
 function sizeChat() {
 	$('.hero-unit').css('height', ($(window).height() * 0.5));
 };
+
+$('#login').click(function() {
+	$('.alert').hide();
+});
+
+$('#signup').click(function() {
+	$('.alert').hide();
+});
