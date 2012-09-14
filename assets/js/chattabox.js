@@ -3,7 +3,7 @@ var socket = io.connect('http://localhost:3000');
 
 // special case to deal with twitter bootstrap's removing of alert element from DOM
 $('.alert .close').live("click", function(e) {
-    $(this).parent().hide();
+		$(this).parent().hide();
 });
 
 // user join/leave event received
@@ -64,6 +64,13 @@ socket.on('buddyIsHere', function(buddy) {
 	console.log('Your buddy '+buddy+ ' is already here.');
 });
 
+socket.on('buddyLeft', function(buddy) {
+	$('.buddies li').filter(function() {
+		return $.text([this]) === buddy;
+	}).remove();
+	console.log('Your buddy '+buddy+ ' left.');
+});
+
 // add ability to use enter key to enter data from text field
 $('#user_name, #password').keyup(function(event) {
 	if (event.keyCode == 13) {
@@ -108,9 +115,9 @@ function login() {
 
 // add ability to use enter key to enter data from text field
 $("#chat_message").keyup(function(event){
-    if(event.keyCode == 13){
-        $("#chat_button").click();
-    }
+	if(event.keyCode == 13){
+			$("#chat_button").click();
+	}
 });
 
 // emit message to server to have it broadcast back to other users
@@ -123,16 +130,12 @@ function sendMessage() {
 // add user to .buddies on click
 $(document).on('click', '.gen-pop li', function() {
 
+	//
+	// NEED TO ADD NOT ADDING ON YOUR OWN USERNAME
+	//
+
 	socket.emit('addToBuddies', $(this).text());
 
-	//if ( $('.buddies li:contains("'+$(this).text()+'")').length ) {
-//
-	//    console.log($(this).text()+' already in buddy list');
-//
-	//} else {
-	//	console.log($(this).text()+' added to buddy list');
-	//	$('.buddies').append('<li>' + $(this).text() + '</li>');
-	//};
 });
 
 //////
