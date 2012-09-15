@@ -101,12 +101,15 @@ function handle_add_buddies(socket) {
 			console.log('Attempting to add '+buddy+' to '+socket.user+'\'s Buddy list...');
 			client.sismember(socket.user+'_buddies', buddy, function(err, res) {
 				if (res) {
-					// buddy already added
+					console.log(buddy+' is already in Buddy list!!');
 				} else {
 					client.sadd(socket.user+'_buddies', buddy);
+					socket.emit('newBuddyAdded', buddy);
 					console.log('Successfully added '+buddy+' to '+socket.user+'\'s Buddy list!!');
 				};
 			});
+		} else {
+			console.log(socket.user+' tried to be friends with him/herself... :(');
 		};
 	});
 };

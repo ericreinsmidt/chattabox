@@ -58,11 +58,19 @@ socket.on('showBuddies', function(user, buddy) {
 	};
 });
 
+// add buddy to list after successful addition
+socket.on('newBuddyAdded', function(buddy) {
+	$('.buddies').append('<li>' + buddy + '</li>');
+	console.log(buddy + ' is now your buddy!');
+});
+
+// populate buddy list when buddy logs in
 socket.on('buddyJoined', function(buddy) {
 	$('.buddies').append('<li>' + buddy + '</li>');
 	console.log('Your buddy '+buddy+ ' is here.');
 });
 
+// populate buddy list when you log in
 socket.on('buddyIsHere', function(buddy) {
 	$('.buddies').append('<li>' + buddy + '</li>');
 	console.log('Your buddy '+buddy+ ' is already here.');
@@ -111,6 +119,7 @@ function signup() {
 // emit to server a login event
 function login() {
 	socket.emit('login', $('#user_name').val(), $('#password').val() );
+	console.log('user:' + $('#user_name').val() +'  and pass: '+ $('#password').val());
 	$('#user_name').val('');
 	$('#password').val('');
 	$('.alert').hide();
@@ -120,7 +129,7 @@ function login() {
 // add ability to use enter key to enter data from text field
 $("#chat_message").keyup(function(event){
 	if(event.keyCode == 13){
-			$("#chat_button").click();
+		$("#chat_button").click();
 	}
 });
 
@@ -133,18 +142,9 @@ function sendMessage() {
 
 // add user to .buddies on click
 $(document).on('click', '.gen-pop li', function() {
-
-	//
-	// NEED TO ADD NOT ADDING ON YOUR OWN USERNAME
-	//
-
 	socket.emit('addToBuddies', $(this).text());
-
 });
 
-//////
-// MIGHT NEED TO MIVE ABOVE BODY IN HTML
-//////
 // load login/signup based on user choice
 function loadInput(e) {
 	if (e === 'signup') {
@@ -158,9 +158,6 @@ function loadInput(e) {
 	};
 };
 
-//////
-// MIGHT NEED TO MIVE ABOVE BODY IN HTML
-//////
 // have chat box resize when window is resized to look asthetically pleasing
 function sizeChat() {
 	$('.hero-unit').css('height', ($(window).height() * 0.5));
