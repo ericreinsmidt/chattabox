@@ -3,30 +3,48 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=640" />
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
 
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
     <title>Chattabox by ericreinsmidt</title>
   </head>
 
   <body>
+    <a id="forkme_banner" href="https://github.com/ericreinsmidt/chattabox">View on GitHub</a>
+    <div class="shell">
 
-    <header>
-      <div class="container">
-        <h1>Chattabox</h1>
-        <h2>nodejs chat server</h2>
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Chattabox</h1>
+            <h2>nodejs chat server</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-        <section id="downloads">
-          <a href="https://github.com/ericreinsmidt/chattabox/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/ericreinsmidt/chattabox/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/ericreinsmidt/chattabox" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/ericreinsmidt/chattabox/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/ericreinsmidt/chattabox/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
-    <div class="container">
+
+      <span class="banner-fix"></span>
+
+
       <section id="main_content">
         <h1>Chattabox</h1>
 
@@ -90,6 +108,19 @@ $ node server.js
 <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 </blockquote>
       </section>
+
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/ericreinsmidt">ericreinsmidt</a> can be found on <a href="https://github.com/ericreinsmidt/chattabox">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
     </div>
 
     
