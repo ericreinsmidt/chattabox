@@ -6,6 +6,10 @@ $('.alert .close').live("click", function(e) {
 		$(this).parent().hide();
 });
 
+function showModal() {
+	$('#info-modal').modal('show');
+};
+
 // user join/leave event received
 socket.on('update_user_list', function(data) {
 	$('.gen-pop').html('');

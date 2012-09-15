@@ -23,6 +23,9 @@
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="brand" target="_blank" href="http://ericreinsmidt.github.com/chattabox/">Chatta Box</a>
+					<span class="pull-right">
+						<input id="info" type="button" class="btn btn-small btn-info" value="More Info" onclick="showModal();">
+					</span>
 					<span id="enter_buttons" class="pull-right">
 						<input id="login" type="button" class="btn btn-small btn-success" value="Login" onclick="loadInput('login');">
 						<input id="signup" type="button" class="btn btn-small btn-primary" value="Signup" onclick="loadInput('signup');">
@@ -38,6 +41,42 @@
 		</div>
 
 		<div class="container chat">
+
+			<div id="info-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="info-modal-label" aria-hidden="true" style="display: none; ">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+					<h3 id="info-modal-label">Welcome to Chatta Box!</h3>
+				</div>
+				<div class="modal-body">
+					<h4>Sign Up</h4>
+					<p>Chatta Box is free to use, all you need to do is create an account. Click on <button class="btn btn-small btn-primary">Signup</button> to get started. Choose a unique username and password and you will be on your way to chatting.</p>
+					<hr>
+					<h4>Log In</h4>
+					<p>If you have already have an account just click on the <button class="btn btn-small btn-success">Login</button> button and enter your login credentials to get chatting.</p>
+					<hr>
+					<h4>Chat!</h4>
+					<p>Once you have successfully logged in you will be able to chat. Just enter whatever you have to say in the <input type="text" class="" placeholder="Chatta Here…"> box and click the <button class="btn btn-small btn-success">Submit</button> button to send your message.</p>
+					<hr>
+					<h4>Add Buddies</h4>
+					<p>If you want to add a person to your buddy list, just click on their name in the <strong>CURRENT USERS</strong> list and they will be notified that you want to become buddies with them. If they accept, then you will see them in your <strong>BUDDIES</strong> list whenever you are both logged in.</p>
+					<hr>
+					<h4>Private Chat</h4>
+					<p>You can chat with your buddies individually outside of the default chat window. When you are both online, click on your buddy's name and you will be given the option to start a private chat with them.</p>
+					<hr>
+					<h4>File Upload</h4>
+					<p>You can even share files with your buddies! Drag a file from your computer onto your buddy's name and if your buddy accepts the file it will start the transfer automagically!</p>
+					<hr>
+					<h4>Email a Transcript</h4>
+					<p>So you have been collaborating on Chatta Box and you want to save all that hard work? No problem! Just click on the <button class="btn btn-small btn-success">Email Chat</button> button at any time to be emailed a copy of the chat you are currently viewing.</p>
+					<hr>
+					<p><i class="icon-exclamation-sign"></i>Want to use Chatta Box in a project of your own? You can grab a copy on <a href="http://ericreinsmidt.github.com/chattabox/">github</a>.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
 			<div class="row">
 				<div class="span3">
 					<div class="well sidebar-nav">
