@@ -12,10 +12,10 @@ function showModal() {
 
 // user join/leave event received
 socket.on('update_user_list', function(data) {
-	$('.gen-pop').html('');
+	$('#gen-pop').html('');
 	$.each(data, function(index, value)
 	{ 
-		$('.gen-pop').append('<li>'+value+'</li>');
+		$('#gen-pop').append('<li>'+value+'</li>');
 		//console.log(value);
 	});
 });
@@ -54,44 +54,44 @@ socket.on('allow_chat', function(user) {
 
 socket.on('showBuddies', function(user, buddy) {
 	if (user === $('#myID').text()) {
-		$('.buddies').append('<li>' + buddy + '</li>');
+		$('#buddies').append('<li>' + buddy + '</li>');
 	};
 });
 
 // add buddy to list after successful addition
 socket.on('newBuddyAdded', function(buddy) {
-	$('.buddies').append('<li>' + buddy + '</li>');
+	$('#buddies').append('<li>' + buddy + '</li>');
 	console.log(buddy + ' is now your buddy!');
 });
 
 // populate buddy list when buddy logs in
 socket.on('buddyJoined', function(buddy) {
-	$('.buddies').append('<li>' + buddy + '</li>');
-	console.log('Your buddy '+buddy+ ' is here.');
+	$('#buddies').append('<li>' + buddy + '</li>');
+	console.log('Your buddy '+buddy+ ' has logged in.');
 });
 
 // populate buddy list when you log in
 socket.on('buddyIsHere', function(buddy) {
-	$('.buddies').append('<li>' + buddy + '</li>');
+	$('#buddies').append('<li>' + buddy + '</li>');
 	console.log('Your buddy '+buddy+ ' is already here.');
 });
 
 socket.on('buddyLeft', function(buddy) {
-	$('.buddies li').filter(function() {
+	$('#buddies li').filter(function() {
 		return $.text([this]) === buddy;
 	}).remove();
 	console.log('Your buddy '+buddy+ ' left.');
 });
 
 // add ability to use enter key to enter data from text field
-$('#user_name, #password').keyup(function(event) {
+$('#user_name, #password').keydown(function(event) {
 	if (event.keyCode == 13) {
 		$('#login_button').click();
 	};
 });
 
 // add ability to use enter key to enter data from text field
-$('#new_user, #new_password').keyup(function(event) {
+$('#new_user, #new_password').keydown(function(event) {
 	if (event.keyCode == 13) {
 		$('#signup_button').click();
 	};
@@ -140,10 +140,46 @@ function sendMessage() {
 	$('#chat_message').focus();
 };
 
-// add user to .buddies on click
-$(document).on('click', '.gen-pop li', function() {
+// add user to #buddies on click
+$(document).on('click', '#gen-pop li', function() {
 	socket.emit('addToBuddies', $(this).text());
 });
+
+//// NEEDS WORK
+
+// start private chat with buddy on click
+$(document).on('click', '#buddies li', function() {
+	if ($(this).hasClass('glowing')) {//css('text-shadow') !== 'none') {
+		console.log('already glowing!!!!');
+	} else {
+		console.log('Creating private chat room with ' + $(this).text() + '.');
+		// MUST ADD LIMITATION OF NO SPACES IN USERNAME
+		socket.emit('privateChatSYN', $(this).text(), $('#myID').text().split(' ').pop());
+	};
+});
+
+socket.on('privateChatACK', function(recipient, sender) {
+	$('#buddies li').each(function () {
+		if ($(this).text() === sender || $(this).text() === recipient) {
+			$(this).addClass('glowing');
+			$('body').append('<div id="' + (sender+recipient) + '"></div>');
+			$('#current-room li').removeClass('glowing');
+			$('#current-room').append('<li id="' + (sender+recipient) + '-li" class="glowing">' + (sender+'-'+recipient) + '</li>');
+			console.log('Acknowledging private chat room between ' + sender + ' and ' + recipient + '.');
+		};
+	});
+});
+
+socket.on('private_message', function(data) {
+	console.log(data);
+});
+
+$(document).on('click', '#current-room li', function() {
+	$('#current-room li').removeClass('glowing');
+	$(this).addClass('glowing');
+});
+
+//// END NEEDS WORK
 
 // load login/signup based on user choice
 function loadInput(e) {
@@ -163,10 +199,12 @@ function sizeChat() {
 	$('.hero-unit').css('height', ($(window).height() * 0.5));
 };
 
+// function to close alert window when logging in
 $('#login').click(function() {
 	$('.alert').hide();
 });
 
+// function to close alert window when signing up
 $('#signup').click(function() {
 	$('.alert').hide();
 });

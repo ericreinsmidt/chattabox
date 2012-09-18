@@ -22,11 +22,11 @@ body {
 	margin-top: 15px;
 	display: none;
 }
-.gen-pop, .buddies {
+#current-room, #gen-pop, #buddies {
 	font-size: 18px;
 	font-weight: 200;
 }
-.gen-pop li {
+#current-room li, #gen-pop li, #buddies li {
 	cursor: pointer;
 }
 #exit_buttons {
@@ -37,6 +37,9 @@ body {
 }
 #info {
 	margin-left: 5px;
+}
+.glowing {
+	text-shadow: 0 0 0.4em #00FFFF;
 }
 footer {
 

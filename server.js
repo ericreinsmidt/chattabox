@@ -18,6 +18,8 @@ var app = require('http').createServer(handler)
 
 var live_users = new Array();
 var client = redis.createClient();
+var rooms = ['general_population'];
+//var private_chat = redis.createClient();
 
 client.on("error", function (err) {
 	console.log("Error " + err);
@@ -65,35 +67,19 @@ io.sockets.on('connection', function (socket) {
 	// on page load, update user list for new connector
 	io.sockets.emit('update_user_list', live_users);
 
+	// give socket a room name and put in general_population room
+	socket.room = 'general_population';
+	socket.join('general_population');
+
 	// attach functions to each connected socket
 	handle_message(socket);
+	handle_private_message(socket);
 	handle_signup(socket);
 	handle_login(socket);
 	handle_logout(socket);
 	handle_add_buddies(socket);
-	//handle_get_buddies(socket);
 
 });
-
-// function handle_get_buddies(socket) {
-//  socket.on('getBuddies', function() {
-//    for (var i = 0; i < live_users.length; i++) {
-//      console.log('live user: '+live_users[i]+ '  just joined: '+socket.user);
-//          client.sismember(live_users[i]+'_buddies', socket.user, function(err, res) {
-//        if (res) {
-//          // send user to buddylist
-//          user = socket.user;
-//          io.sockets.clients().forEach(function (socket) {
-//            socket.emit('showBuddies', live_users[i], user);
-//          });
-//        } else {
-//          // do nothing
-//        };
-//      });
-		
-//    };
-//  });
-// };
 
 function handle_add_buddies(socket) {
 	socket.on('addToBuddies', function(buddy) {
@@ -118,12 +104,29 @@ function handle_add_buddies(socket) {
 function handle_message(socket) {
 	
 	socket.on('send_message', function(message) {
-		if (message !== '') {
+		if (message !== '' && socket.user !== undefined) {
 			// broadcast message to all
 			io.sockets.emit('add_message', '<strong>'+socket.user+'</strong> - '+message+'<br><small>'+Date()+'</small>');
+			io.sockets.in('general_population').emit('add_message', 'If you can see this you are in gen pop!');
 		};
 	});
 	
+};
+
+// message received from client and intended recipient is recipient
+function handle_private_message(socket) {
+	socket.on('privateChatSYN', function(recipient, sender) {
+		io.sockets.clients().forEach(function (socket2) {
+			if (socket2.user === recipient) {
+				rooms.push(sender+recipient);
+				socket.join(sender+recipient);
+				socket2.join(sender+recipient);
+				io.sockets.in(sender+recipient).emit('add_message', 'If you can see this you are in '+(sender+recipient)+'!');
+				socket.emit('privateChatACK', recipient, sender);
+				socket2.emit('privateChatACK', recipient, sender);
+			};
+		});
+	});
 };
 
 // new user signup event received
