@@ -155,7 +155,7 @@ $(document).on('click', '#gen-pop li', function() {
 // start private chat with buddy on click
 $(document).on('click', '#buddies li', function() {
 	if ($(this).hasClass('glowing')) {
-		console.log('already glowing!!!!');
+		console.log('Private room already exists!');
 	} else {
 		console.log('Creating private chat room with ' + $(this).text() + '.');
 		// MUST ADD LIMITATION OF NO SPACES IN USERNAME
@@ -170,6 +170,7 @@ socket.on('privateChatACK', function(recipient, sender) {
 			$(this).addClass('glowing');
 			$('.hero-unit').addClass('hidden');
 			$('#chat_block').append('<div id="' + (sender+recipient) + '_chat" class="hero-unit well"></div>');
+			sizeChat();
 			$('#current-room li').removeClass('glowing');
 			$('#current-room').append('<li id="' + (sender+recipient) + '" class="glowing">' + (sender+'-'+recipient) + '</li>');
 			console.log('Acknowledging private chat room between ' + sender + ' and ' + recipient + '.');

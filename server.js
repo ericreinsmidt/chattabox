@@ -148,7 +148,7 @@ function handle_signup(socket) {
 			socket.user = user;
 			socket.pass = pass;
 			live_users.push(user);
-			io.sockets.emit('add_message', user + ' has logged in');
+			io.sockets.emit('add_message', user + ' has logged in.', 'general');
 			io.sockets.emit('update_user_list', live_users);
 			socket.emit('allow_chat', socket.user);
 			// check for buddies
@@ -176,28 +176,28 @@ function handle_login(socket) {
 		if (res) { // username exists and is not logged in
 			client.hgetall(user, function(err, res2) {
 				if (res2.password === pass) {
-				socket.user = user;
-				socket.pass = pass;
-				live_users.push(user);
-				io.sockets.emit('add_message', user + ' has logged in');
-				io.sockets.emit('update_user_list', live_users);
-				socket.emit('allow_chat', socket.user);
-				// tell buddies you logged in
-				io.sockets.clients().forEach(function (socket2) {
-					client.sismember(socket2.user+'_buddies', user, function(err, res) {
-						if (res) {
-							socket2.emit('buddyJoined', user);
-							console.log('Your buddy '+user+' joined.');
-						};
+					socket.user = user;
+					socket.pass = pass;
+					live_users.push(user);
+					io.sockets.emit('add_message', user + ' has logged in.', 'general');
+					io.sockets.emit('update_user_list', live_users);
+					socket.emit('allow_chat', socket.user);
+					// tell buddies you logged in
+					io.sockets.clients().forEach(function (socket2) {
+						client.sismember(socket2.user+'_buddies', user, function(err, res) {
+							if (res) {
+								socket2.emit('buddyJoined', user);
+								console.log('Your buddy '+user+' joined.');
+							};
+						});
+						client.sismember(user+'_buddies', socket2.user, function(err, res) {
+							if (res) {
+								socket.emit('buddyIsHere', socket2.user);
+								console.log('Checked '+user+'_buddies, and your buddy '+socket2.user+' is here already.');
+							};
+						});
 					});
-					client.sismember(user+'_buddies', socket2.user, function(err, res) {
-						if (res) {
-							socket.emit('buddyIsHere', socket2.user);
-							console.log('Checked '+user+'_buddies, and your buddy '+socket2.user+' is here already.');
-						};
-					});
-				});
-				console.log('User: ' + user + ' has successfully logged in with password: ' + pass);
+					console.log('User: ' + user + ' has successfully logged in with password: ' + pass);
 				} else { // password didn't match
 					socket.emit('login_error','Hmmmm.','Something\'s not right. Please recheck your username and password.');
 				};
