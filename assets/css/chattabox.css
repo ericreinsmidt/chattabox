@@ -41,6 +41,9 @@ body {
 .glowing {
 	text-shadow: 0 0 0.4em #00FFFF;
 }
+.hidden {
+	display: none;
+}
 footer {
 
 }

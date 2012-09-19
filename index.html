@@ -58,20 +58,19 @@
 					<p>Once you have successfully logged in you will be able to chat. Just enter whatever you have to say in the <input type="text" class="" placeholder="Chatta Here…"> box and click the <button class="btn btn-small btn-success">Submit</button> button to send your message. The current room you are located in will be noted by a glow around the room name. For example if you are in the general chat room it will look like this: <img src="/assets/img/current_room.png" alt="example showimg indicator of which room user is in currently"></p>
 					<hr>
 					<h4>Add Buddies</h4>
-					<p><i class="icon-exclamation-sign"></i>Not yet implemented! You can add buddies, but there is currently no verification required by the other party.</p>
 					<p>If you want to add a person to your buddy list, just click on their name in the <strong>CURRENT USERS</strong> list and they will be notified that you want to become buddies with them. If they accept, then you will see them in your <strong>BUDDIES</strong> list whenever you are both logged in.</p>
+					<p><i class="icon-exclamation-sign"></i>You can add buddies, but there is currently no verification required by the other party.</p>
 					<hr>
 					<h4>Private Chat</h4>
-					<p><i class="icon-exclamation-sign"></i>Not yet implemented!</p>
-					<p>You can chat with your buddies individually outside of the default chat window. When you are both online, click on your buddy's name and you will be given the option to start a private chat with them.</p>
+					<p>You can chat with your buddies individually outside of the default chat window. When you are both online, click on your buddy's name and a private room will be created where you an your buddy can talk. To switch between rooms, just click on any of the available rooms. The room you are in will be indicated by glowing text.</p>
 					<hr>
 					<h4>File Upload</h4>
-					<p><i class="icon-exclamation-sign"></i>Not yet implemented!</p>
 					<p>You can even share files with your buddies! Drag a file from your computer onto your buddy's name and if your buddy accepts the file it will start the transfer automagically!</p>
+					<p><i class="icon-exclamation-sign"></i>Not yet implemented!</p>
 					<hr>
 					<h4>Email a Transcript</h4>
-					<p><i class="icon-exclamation-sign"></i>Not yet implemented!</p>
 					<p>So you have been collaborating on Chatta Box and you want to save all that hard work? No problem! Just click on the <button class="btn btn-small btn-success">Email Chat</button> button at any time to be emailed a copy of the chat you are currently viewing.</p>
+					<p><i class="icon-exclamation-sign"></i>Not yet implemented!</p>
 					<hr>
 					<p>Want to use Chatta Box in a project of your own? You can grab a copy on <a href="http://ericreinsmidt.github.com/chattabox/" target="_blank">github</a>.
 					</p>
@@ -87,7 +86,7 @@
 						<ul class="nav nav-list">
 							<li class="nav-header">Current Rooms:</li>
 							<ul id="current-room" style="list-style: none;">
-								<li class="glowing">General Chat</li>
+								<li id="general" class="glowing">General Chat</li>
 							</ul>
 							<hr>
 							<li class="nav-header">Current Users:</li>
@@ -101,7 +100,7 @@
 				</div><!--/span-->
 				<div class="span9">
 					<div id="chat_block" >
-						<div id="general_population" class="hero-unit well"></div>
+						<div id="general_chat" class="hero-unit well"></div>
 					</div>
 					<div id="error_div" class="alert alert-block alert-error fade in">
 						<button type="button" class="close">×</button>

@@ -34,16 +34,15 @@ socket.on('login_error', function(head, text) {
 });
 
 // message received from server, so broadcast
-socket.on('add_message', function(data) {
-	$('.hero-unit').append('<p>'+data+'</p>');
-	$('.hero-unit').scrollTop($('.hero-unit')[0].scrollHeight);
+socket.on('add_message', function(message, room) { // HANDLE ROOM
+	$('#'+room+'_chat').append('<p>'+message+'</p>');
+	$('#'+room+'_chat').scrollTop($('#'+room+'_chat')[0].scrollHeight);
 	//console.log(data);
 });
 
 // event received that you have entered either login or signup
 socket.on('allow_chat', function(user) {
 	$('#myID').html('<h5>logged in as '+user+'</h5>');
-	//socket.emit('getBuddies');
 	$('#enter_buttons').hide();
 	$('#exit_buttons').show();
 	$('#chat-login').hide();
@@ -52,6 +51,7 @@ socket.on('allow_chat', function(user) {
 	$('#chat_message').focus();
 });
 
+// if I am user, add buddy to list
 socket.on('showBuddies', function(user, buddy) {
 	if (user === $('#myID').text()) {
 		$('#buddies').append('<li>' + buddy + '</li>');
@@ -76,6 +76,7 @@ socket.on('buddyIsHere', function(buddy) {
 	console.log('Your buddy '+buddy+ ' is already here.');
 });
 
+// remove buddy from list when they logout
 socket.on('buddyLeft', function(buddy) {
 	$('#buddies li').filter(function() {
 		return $.text([this]) === buddy;
@@ -97,10 +98,11 @@ $('#new_user, #new_password').keydown(function(event) {
 	};
 });
 
+// NOT CURRENTLY USED!!!
 function logout() {
 	console.log('disconnected from socket!!!!!!');
 	socket.emit('disconnect', function() {
-		//
+		// do nothing
 	});
 	$('#chat-input').hide();
 	$('#enter_buttons').show();
@@ -135,7 +137,12 @@ $("#chat_message").keyup(function(event){
 
 // emit message to server to have it broadcast back to other users
 function sendMessage() {
-	socket.emit('send_message', $('#chat_message').val());
+	$('#current-room li').each( function() { 
+		if($(this).hasClass('glowing')) {
+			room = $(this).attr('id');
+			socket.emit('send_message', $('#chat_message').val(), room);
+		};
+	});
 	$('#chat_message').val('');
 	$('#chat_message').focus();
 };
@@ -145,11 +152,9 @@ $(document).on('click', '#gen-pop li', function() {
 	socket.emit('addToBuddies', $(this).text());
 });
 
-//// NEEDS WORK
-
 // start private chat with buddy on click
 $(document).on('click', '#buddies li', function() {
-	if ($(this).hasClass('glowing')) {//css('text-shadow') !== 'none') {
+	if ($(this).hasClass('glowing')) {
 		console.log('already glowing!!!!');
 	} else {
 		console.log('Creating private chat room with ' + $(this).text() + '.');
@@ -158,28 +163,35 @@ $(document).on('click', '#buddies li', function() {
 	};
 });
 
+// private chat suuccessfully initiated from server
 socket.on('privateChatACK', function(recipient, sender) {
 	$('#buddies li').each(function () {
 		if ($(this).text() === sender || $(this).text() === recipient) {
 			$(this).addClass('glowing');
-			$('body').append('<div id="' + (sender+recipient) + '"></div>');
+			$('.hero-unit').addClass('hidden');
+			$('#chat_block').append('<div id="' + (sender+recipient) + '_chat" class="hero-unit well"></div>');
 			$('#current-room li').removeClass('glowing');
-			$('#current-room').append('<li id="' + (sender+recipient) + '-li" class="glowing">' + (sender+'-'+recipient) + '</li>');
+			$('#current-room').append('<li id="' + (sender+recipient) + '" class="glowing">' + (sender+'-'+recipient) + '</li>');
 			console.log('Acknowledging private chat room between ' + sender + ' and ' + recipient + '.');
 		};
 	});
 });
 
+
+// NOT CURRENTLY USED!!!
 socket.on('private_message', function(data) {
 	console.log(data);
 });
 
+// on room selction, set active room to glow and hide all but relevant chat window
 $(document).on('click', '#current-room li', function() {
 	$('#current-room li').removeClass('glowing');
 	$(this).addClass('glowing');
-});
+	$('.hero-unit').addClass('hidden');
+	$('#'+$(this).attr('id')+'_chat').removeClass('hidden');
 
-//// END NEEDS WORK
+	console.log($('#'+$(this).attr('id')+'_chat').removeClass('hidden'));
+});
 
 // load login/signup based on user choice
 function loadInput(e) {

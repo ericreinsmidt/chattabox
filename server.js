@@ -3,8 +3,8 @@
 Purpose: node.js chat server
 Author:  Eric Reinsmidt
 Contact: eric@reinsmidt.com
-Date:    2012.09.14
-Version: 0.0.1
+Date:    2012.09.18
+Version: 0.1.1
 
 */
 
@@ -18,7 +18,7 @@ var app = require('http').createServer(handler)
 
 var live_users = new Array();
 var client = redis.createClient();
-var rooms = ['general_population'];
+var rooms = ['general'];
 //var private_chat = redis.createClient();
 
 client.on("error", function (err) {
@@ -27,7 +27,7 @@ client.on("error", function (err) {
 
 app.listen(3000);
 
-//io.set('log level', 1);
+io.set('log level', 1);
 
 
 // handle HTTP requests from clients
@@ -36,7 +36,7 @@ function handler (request, response) {
 	if (pathname == "/") pathname = "index.html";
 	var filename = path.join(process.cwd(), pathname);
 
-	path.exists(filename, function(exists) {
+	fs.exists(filename, function(exists) {
 		// throw 404 page if no file at requested path
 		if (!exists) {
 			response.writeHead(404, {"Content-Type": "text/plain"});
@@ -55,7 +55,7 @@ function handler (request, response) {
 		}).addListener("data", function(chunk) {
 			response.write(chunk, 'binary');
 		}).addListener("close",function() {
-			console.log('Loaded file ' + filename + ' with filetype ' + mime.lookup(filename));
+			//console.log('Loaded file ' + filename + ' with filetype ' + mime.lookup(filename));
 			response.end();
 		});
 	});
@@ -67,9 +67,9 @@ io.sockets.on('connection', function (socket) {
 	// on page load, update user list for new connector
 	io.sockets.emit('update_user_list', live_users);
 
-	// give socket a room name and put in general_population room
-	socket.room = 'general_population';
-	socket.join('general_population');
+	// give socket a room name and put in general room
+	socket.room = 'general';
+	socket.join('general');
 
 	// attach functions to each connected socket
 	handle_message(socket);
@@ -103,11 +103,13 @@ function handle_add_buddies(socket) {
 // message received from client
 function handle_message(socket) {
 	
-	socket.on('send_message', function(message) {
+	socket.on('send_message', function(message, room) {
 		if (message !== '' && socket.user !== undefined) {
-			// broadcast message to all
-			io.sockets.emit('add_message', '<strong>'+socket.user+'</strong> - '+message+'<br><small>'+Date()+'</small>');
-			io.sockets.in('general_population').emit('add_message', 'If you can see this you are in gen pop!');
+			// broadcast message to users in specified room
+			console.log('@'+socket.user+' said: '+message+' IN '+room);
+			io.sockets.in(room).emit('add_message', '<strong>'+socket.user+'</strong> - '+message+'<br><small>'+Date()+'</small>', room);
+			//io.sockets.emit('add_message', '<strong>'+socket.user+'</strong> - '+message+'<br><small>'+Date()+'</small>');
+			//io.sockets.in('general').emit('add_message', 'If you can see this you are in gen pop!');
 		};
 	});
 	
@@ -139,7 +141,7 @@ function handle_signup(socket) {
 	client.hexists(user, 'username', function(err, res) {
 		if (res) { // if res === true, user already exists!
 			socket.emit('login_error','Great minds think alike!','You have such good taste that someone already chose that username. Please pick another username.');
-			console.log('Attempted signup of existing username ' + user);
+			console.log('Attempted signup of existing username: ' + user);
 			return;
 		} else { // create new user
 			client.hmset(user, 'username', user, 'password', pass);
@@ -153,7 +155,7 @@ function handle_signup(socket) {
 			// io.sockets.clients().forEach(function (socket) {
 				// socket.emit('showBuddies', live_users[i], user);
 			// });
-			console.log('New user ' + user + ' has signed up.');
+			console.log('User: ' + user + ' has signed up.');
 		};
 	});
 	});
@@ -185,7 +187,7 @@ function handle_login(socket) {
 					client.sismember(socket2.user+'_buddies', user, function(err, res) {
 						if (res) {
 							socket2.emit('buddyJoined', user);
-							console.log('your buddy '+user+' joined.');
+							console.log('Your buddy '+user+' joined.');
 						};
 					});
 					client.sismember(user+'_buddies', socket2.user, function(err, res) {
@@ -195,7 +197,7 @@ function handle_login(socket) {
 						};
 					});
 				});
-				console.log('user = ' + user + ' has successfully logged in with password ' + pass);
+				console.log('User: ' + user + ' has successfully logged in with password: ' + pass);
 				} else { // password didn't match
 					socket.emit('login_error','Hmmmm.','Something\'s not right. Please recheck your username and password.');
 				};
@@ -212,7 +214,7 @@ function handle_logout(socket) {
 	socket.on('disconnect', function() {
 		// only broadcast if user was logged in
 		if (socket.user) {
-			io.sockets.emit('add_message', socket.user + ' has logged out');
+			io.sockets.emit('add_message', socket.user + ' has logged out', 'general');
 			var i = live_users.indexOf(socket.user);
 			live_users.splice(i,1);
 			io.sockets.emit('update_user_list', live_users);
@@ -221,7 +223,7 @@ function handle_logout(socket) {
 				client.sismember(socket2.user+'_buddies', socket.user, function(err, res) {
 					if (res) {
 						socket2.emit('buddyLeft', socket.user);
-						console.log('your buddy '+socket.user+' left.');
+						console.log('Your buddy '+socket.user+' left.');
 					};
 				});
 			});
