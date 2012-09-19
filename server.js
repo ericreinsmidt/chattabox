@@ -19,7 +19,6 @@ var app = require('http').createServer(handler)
 var live_users = new Array();
 var client = redis.createClient();
 var rooms = ['general'];
-//var private_chat = redis.createClient();
 
 client.on("error", function (err) {
 	console.log("Error " + err);
@@ -67,8 +66,7 @@ io.sockets.on('connection', function (socket) {
 	// on page load, update user list for new connector
 	io.sockets.emit('update_user_list', live_users);
 
-	// give socket a room name and put in general room
-	socket.room = 'general';
+	// put socket in general room
 	socket.join('general');
 
 	// attach functions to each connected socket
@@ -227,6 +225,9 @@ function handle_logout(socket) {
 					};
 				});
 			});
+			// ALL ROOMS USER WAS IN
+			// LEVERAGE THIS TO CLEANUP PRIVATE CHATS USER HAS LEFT!
+			console.log(io.sockets.manager.roomClients[socket.id]);
 		};
 	});
 };
