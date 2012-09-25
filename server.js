@@ -76,25 +76,50 @@ io.sockets.on('connection', function (socket) {
 	handle_login(socket);
 	handle_logout(socket);
 	handle_add_buddies(socket);
+	handle_send_file(socket);
 
 });
 
+function handle_send_file(socket) {
+	
+};
+
 function handle_add_buddies(socket) {
-	socket.on('addToBuddies', function(buddy) {
+	socket.on('addToBuddies', function(buddy, asker) {
 		if (socket.user !== buddy) {
 			console.log('Attempting to add '+buddy+' to '+socket.user+'\'s Buddy list...');
 			client.sismember(socket.user+'_buddies', buddy, function(err, res) {
 				if (res) {
 					console.log(buddy+' is already in Buddy list!!');
 				} else {
-					client.sadd(socket.user+'_buddies', buddy);
-					socket.emit('newBuddyAdded', buddy);
-					console.log('Successfully added '+buddy+' to '+socket.user+'\'s Buddy list!!');
+					io.sockets.clients().forEach(function (socket2) {
+						if (socket2.user === buddy) {
+							socket2.emit('confirmBuddy', buddy, asker);
+						};
+					});
 				};
 			});
 		} else {
 			console.log(socket.user+' tried to be friends with him/herself... :(');
 		};
+	});
+	socket.on('buddyHasConfirmed', function(response, buddy, asker) {
+		console.log('buddy has confirmed with response: '+response+ ' buddy: '+ buddy+' asker: '+ asker);
+		if (response === 'yes') {
+			client.sadd(socket.user+'_buddies', asker);
+			socket.emit('newBuddyAdded', asker);
+			console.log('Successfully added '+asker+' to '+socket.user+'\'s Buddy list!!');
+			io.sockets.clients().forEach(function (socket2) {
+				if (socket2.user === asker) {
+					client.sadd(socket2.user+'_buddies', buddy);
+					socket2.emit('newBuddyAdded', buddy);
+					console.log('Successfully added '+buddy+' to '+socket2.user+'\'s Buddy list!!');
+				};
+			});
+		} else {
+			// DO SOMETHING TO NOTIFY ASKER OF DENIAL LATER
+		};
+
 	});
 };
 
@@ -113,7 +138,7 @@ function handle_message(socket) {
 	
 };
 
-// message received from client and intended recipient is recipient
+// message received from client/sender to recipient/recipient
 function handle_private_message(socket) {
 	socket.on('privateChatSYN', function(recipient, sender) {
 		io.sockets.clients().forEach(function (socket2) {

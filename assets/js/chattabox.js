@@ -10,6 +10,10 @@ function showModal() {
 	$('#info-modal').modal('show');
 };
 
+function showBuddyModal() {
+	$('#buddy-modal').modal('show');
+}
+
 // user join/leave event received
 socket.on('update_user_list', function(data) {
 	$('#gen-pop').html('');
@@ -50,6 +54,28 @@ socket.on('allow_chat', function(user) {
 	$('#chat-input').show();
 	$('#chat_message').focus();
 });
+
+socket.on('confirmBuddy', function(buddy, asker) {
+	
+	console.log(buddy+', '+asker+' wants to be your buddy.');
+	$('#buddy-head').html(asker+' wants to be your buddy!');
+	$('#buddy-body').html('Do you accept this buddy request?<br><br><br><input id="yes" type="button" class="btn btn-small btn-success" value="Yes" data-dismiss="modal">&nbsp;&nbsp;<input id="no" type="button" class="btn btn-small btn-danger" value="No" data-dismiss="modal">');
+	showBuddyModal();
+
+	$('#yes').click(function() {
+	 acceptBuddy('yes', buddy, asker);
+	});
+
+	$('#no').click(function() {
+	 acceptBuddy('no', buddy, asker);
+	});
+
+});
+
+function acceptBuddy(response, buddy, asker) {
+	console.log(response +' : '+ buddy +' : '+ asker);
+	socket.emit('buddyHasConfirmed', response, buddy, asker);
+};
 
 // if I am user, add buddy to list
 socket.on('showBuddies', function(user, buddy) {
@@ -149,7 +175,7 @@ function sendMessage() {
 
 // add user to #buddies on click
 $(document).on('click', '#gen-pop li', function() {
-	socket.emit('addToBuddies', $(this).text());
+	socket.emit('addToBuddies', $(this).text(), $('#myID').text().split(' ').pop());
 });
 
 // start private chat with buddy on click
@@ -163,7 +189,7 @@ $(document).on('click', '#buddies li', function() {
 	};
 });
 
-// private chat suuccessfully initiated from server
+// private chat successfully initiated from server
 socket.on('privateChatACK', function(recipient, sender) {
 	$('#buddies li').each(function () {
 		if ($(this).text() === sender || $(this).text() === recipient) {
