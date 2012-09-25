@@ -199,6 +199,7 @@ socket.on('privateChatACK', function(recipient, sender) {
 			sizeChat();
 			$('#current-room li').removeClass('glowing');
 			$('#current-room').append('<li id="' + (sender+recipient) + '" class="glowing">' + (sender+'-'+recipient) + '</li>');
+			$('#file_upload_button').show();
 			console.log('Acknowledging private chat room between ' + sender + ' and ' + recipient + '.');
 		};
 	});
@@ -212,6 +213,13 @@ socket.on('private_message', function(data) {
 
 // on room selction, set active room to glow and hide all but relevant chat window
 $(document).on('click', '#current-room li', function() {
+	if ($(this).text() === 'General Chat') {
+		console.log('In general chat');
+		$('#file_upload_button').hide();
+	} else {
+		console.log('Not in general chat');
+		$('#file_upload_button').show();
+	};
 	$('#current-room li').removeClass('glowing');
 	$(this).addClass('glowing');
 	$('.hero-unit').addClass('hidden');

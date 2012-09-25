@@ -81,7 +81,7 @@ io.sockets.on('connection', function (socket) {
 });
 
 function handle_send_file(socket) {
-	
+	// I AM GOING TO HAVE TO FUNDAMENTALLY CHANGE THE WAY I HANDLE EVERYTHING. NEED TO HANDLE ROUTES, ETC.
 };
 
 function handle_add_buddies(socket) {

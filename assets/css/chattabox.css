@@ -44,6 +44,9 @@ body {
 .hidden {
 	display: none;
 }
+#file_upload_button {
+	display: none;
+}
 footer {
 
 }
